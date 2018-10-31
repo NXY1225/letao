@@ -49,6 +49,25 @@
     <script src="../js/jquery.min.js"></script>
 
     <script>
+
+        // 根据地址栏上的参数来确定登陆成功后跳转到哪里
+        
+        // 获取地址参数
+        var search = location.search.slice(1);
+
+        console.log(location.search);
+
+        // 使用正则表达式取出 url 地址
+        var reg = /url=(.+)/;
+        // 匹配
+        var match = reg.exec(search);
+        
+        
+        // 匹配不成功则为 null
+        var url = match && match[1];
+
+        url = url || '/index.html';
+
         $('form').on('submit',function() {
             var data = $(this).serialize();
             $.ajax({
@@ -57,7 +76,7 @@
                 data: data,
                 success: function(info) {
                    if(info.success) {
-                       location.href = "../index.html"
+                       location.href = url
                    }
                 }
             })

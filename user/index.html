@@ -27,7 +27,7 @@
                     <a class="mui-navigate-right" href="#account">
                         <img class="mui-media-object mui-pull-left head-img" id="head-img" src="../images/user.jpg">
                         <div class="mui-media-body">
-                            Hello MUI
+                            <span class="name"></span>
                             <p class="mui-ellipsis">账号:hellomui</p>
                         </div>
                     </a>
@@ -45,7 +45,7 @@
                 </li>
             </ul>
             <div class="p20">
-                <a href="login.html" class="mui-btn btn_outLogin">退出登录</a>
+                <a href="javascript:;" class="mui-btn btn_outLogin">退出登录</a>
             </div>
         </div>
         <footer class="cz_tabs">
@@ -56,9 +56,31 @@
         </footer>
     </div>
     <script src="../res/mui/js/mui.min.js"></script>
-    <script src="../js/jquery-1.12.4.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
     <script>
-        
+        $.ajax({
+            url: '/api/user/queryUserMessage',
+            type: 'get',
+            success: function (info) {
+                $('span.name').text(info.username)
+
+                if (info.error) {
+                    location.href = '/user/login.html?url=' + location.href;
+                }
+            }
+        })
+
+        $('.btn_outLogin').on('click', function () {
+            $.ajax({
+                url: '/api/user/logout',
+                type: 'get',
+                success: function (info) {
+                    if (info.success) {
+                        location.href = '/'
+                    }
+                }
+            })
+        })
 
     </script>
 </body>
